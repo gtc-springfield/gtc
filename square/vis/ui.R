@@ -12,6 +12,8 @@ shinyUI({
         icon = icon("bar-chart")),
       menuItem("Items", tabName = "items",
         icon = icon("calculator")),
+      menuItem("Comparison", tabName = "comparison",
+        icon = icon("calculator")),
       menuItem("Filters", icon = icon("cog"),
         selectInput("year", label = "Year", choices = "2016"),
         sliderInput("month", label = "Month",
@@ -23,6 +25,7 @@ shinyUI({
   # Tabs ----
   source("modules/markets.R", local = TRUE)
   source("modules/items.R", local = TRUE)
+  source("modules/comparison.R", local = TRUE)
 
   # Body ----
   body <- dashboardBody(
