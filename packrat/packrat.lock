@@ -7,6 +7,10 @@ Repos: BioCsoft=https://bioconductor.org/packages/3.5/bioc,
     BioCextra=https://bioconductor.org/packages/3.5/extra,
     CRAN=https://cran.rstudio.com/
 
+Package: BH
+Source: CRAN
+Version: 1.65.0-1
+
 Package: R6
 Source: CRAN
 Version: 2.2.2
@@ -22,17 +26,22 @@ Source: CRAN
 Version: 0.6.12
 Hash: e53fb8c58673df868183697e39a6a4d6
 
+Package: hms
+Source: CRAN
+Version: 0.3
+Hash: 3fca8a1c97e6cfb297fe3f4690f82c58
+
 Package: htmltools
 Source: CRAN
 Version: 0.3.6
-Hash: 5b070a04ef8df1953544873db1c5896e
 Requires: Rcpp, digest
+Hash: 5b070a04ef8df1953544873db1c5896e
 
 Package: httpuv
 Source: CRAN
 Version: 1.3.5
-Hash: 2cc5284565b71276d1faf3d5c043fe4e
 Requires: Rcpp
+Hash: 2cc5284565b71276d1faf3d5c043fe4e
 
 Package: jsonlite
 Source: CRAN
@@ -49,17 +58,34 @@ Source: CRAN
 Version: 0.4.8-1
 Hash: 6ad605ba7b4b476d84be6632393f5765
 
+Package: readr
+Source: CRAN
+Version: 1.1.1
+Requires: BH, R6, Rcpp, hms, tibble
+Hash: c9044cbc275e63bf00dd3af329290fa9
+
+Package: rlang
+Source: CRAN
+Version: 0.1.2
+Hash: c17b638e3282aa222a47112d7a60bc66
+
 Package: shiny
 Source: CRAN
 Version: 1.0.5
-Hash: 4d47532a807122bfd6bc3818310f9d2e
 Requires: R6, digest, htmltools, httpuv, jsonlite, mime, sourcetools,
     xtable
+Hash: 4d47532a807122bfd6bc3818310f9d2e
 
 Package: sourcetools
 Source: CRAN
 Version: 0.1.6
 Hash: 226d56d7469587da40b0f96180e711b4
+
+Package: tibble
+Source: CRAN
+Version: 1.3.4
+Requires: Rcpp, rlang
+Hash: 3111e0d62502af60fe0fa8b4213fedad
 
 Package: xtable
 Source: CRAN
