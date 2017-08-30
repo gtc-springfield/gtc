@@ -17,7 +17,7 @@ read_clean_data<- function(infile) {
   
   # Read in the item data
   
-  datadir <- "~/Desktop/gtc/square/data/items"
+  datadir_items <- "../data/items"
   files <- list.files(datadir, pattern = ".csv", full.names = TRUE)
   
   for (file in files) {
@@ -27,11 +27,13 @@ read_clean_data<- function(infile) {
   
   # Read in the transactions data
   
-  datadir <- "~/Desktop/gtc/square/data/transactions"
+  datadir <- "../data/transactions"
   files <- list.files(datadir, pattern = ".csv")
   
   for (file in files) {
     data <- read_csv(file)
     
   }
+  
+  
   
