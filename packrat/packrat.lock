@@ -11,6 +11,11 @@ Package: BH
 Source: CRAN
 Version: 1.65.0-1
 
+Package: DBI
+Source: CRAN
+Version: 0.6-1
+Hash: 4aef5bda70897c1663d5b8bae2f4419a
+
 Package: R6
 Source: CRAN
 Version: 2.2.2
@@ -21,10 +26,21 @@ Source: CRAN
 Version: 0.12.12
 Hash: 8b3d5ebb9a9a4ab5c86b3a81b0cfb774
 
+Package: assertthat
+Source: CRAN
+Version: 0.2.0
+Hash: e8805df54c65ac96d50235c44a82615c
+
 Package: digest
 Source: CRAN
 Version: 0.6.12
 Hash: e53fb8c58673df868183697e39a6a4d6
+
+Package: dplyr
+Source: CRAN
+Version: 0.5.0
+Requires: BH, R6, Rcpp, tibble, DBI, assertthat, lazyeval, magrittr
+Hash: 68b4b558941f32bbc9bc02135930c141
 
 Package: hms
 Source: CRAN
@@ -48,6 +64,16 @@ Source: CRAN
 Version: 1.5
 Hash: 9c51936d8dd00b2f1d4fe9d10499694c
 
+Package: lazyeval
+Source: CRAN
+Version: 0.2.0
+Hash: 3d6e7608e65bbf5cb170dab1e3c9ed8b
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: bdc4d48c3135e8f3b399536ddf160df4
+
 Package: mime
 Source: CRAN
 Version: 0.5
@@ -62,7 +88,7 @@ Package: readr
 Source: CRAN
 Version: 1.1.1
 Requires: BH, R6, Rcpp, hms, tibble
-Hash: c9044cbc275e63bf00dd3af329290fa9
+Hash: 608d01ba857a1acf3c9ddf6ab3d10869
 
 Package: rlang
 Source: CRAN
@@ -72,20 +98,36 @@ Hash: c17b638e3282aa222a47112d7a60bc66
 Package: shiny
 Source: CRAN
 Version: 1.0.5
-Requires: R6, digest, htmltools, httpuv, jsonlite, mime, sourcetools,
-    xtable
+Requires: R6, digest, jsonlite, mime, sourcetools, xtable, httpuv,
+    htmltools
 Hash: 4d47532a807122bfd6bc3818310f9d2e
+
+Package: shinydashboard
+Source: CRAN
+Version: 0.6.1
+Requires: htmltools, shiny
 
 Package: sourcetools
 Source: CRAN
 Version: 0.1.6
 Hash: 226d56d7469587da40b0f96180e711b4
 
+Package: stringi
+Source: CRAN
+Version: 1.1.5
+Hash: b6308e49357a0b475f433599e0d8b5eb
+
 Package: tibble
 Source: CRAN
 Version: 1.3.4
 Requires: Rcpp, rlang
 Hash: 3111e0d62502af60fe0fa8b4213fedad
+
+Package: tidyr
+Source: CRAN
+Version: 0.6.3
+Requires: Rcpp, tibble, dplyr, lazyeval, magrittr, stringi
+Hash: ab001782aeb1a20618d240e91188d23a
 
 Package: xtable
 Source: CRAN
