@@ -1,31 +1,41 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+shinyUI({
+  # Header ----
+  header <- dashboardHeader(title = "GTC Square Analysis",
+    titleWidth = "225px",
+    tags$li(img(src = "", height = "50px"),
+      class = "dropdown"))
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
-
-  # Sidebar with a slider input for number of bins
-  sidebarLayout(
-    sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("distPlot")
+  # Sidebar ----
+  sidebar <- dashboardSidebar(
+    sidebarMenu(
+      menuItem("Markets", tabName = "markets",
+        icon = icon("bar-chart")),
+      menuItem("Items", tabName = "items",
+        icon = icon("calculator")),
+      menuItem("Filters", icon = icon("cog"),
+        selectInput("year", label = "Year", choices = "2016"),
+        sliderInput("month", label = "Month",
+          min = 1, max = 12, value = c(1, 12))
+      )
     )
   )
-))
+
+  # Tabs ----
+  source("modules/markets.R", local = TRUE)
+  source("modules/items.R", local = TRUE)
+
+  # Body ----
+  body <- dashboardBody(
+    tags$head(
+      tags$link(
+        rel = "stylesheet",
+        type = "text/css",
+        href = "mm.css")
+    ),
+    tabItems(markets, items)
+  )
+
+  # Dashboard Page ----
+  dashboardPage(header, sidebar, body, title = "GTC Square Analysis")
+
+})

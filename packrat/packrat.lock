@@ -10,6 +10,7 @@ Repos: BioCsoft=https://bioconductor.org/packages/3.5/bioc,
 Package: BH
 Source: CRAN
 Version: 1.65.0-1
+Hash: 95f62be4d6916aae14a310a8b56a6475
 
 Package: DBI
 Source: CRAN
@@ -39,8 +40,8 @@ Hash: e53fb8c58673df868183697e39a6a4d6
 Package: dplyr
 Source: CRAN
 Version: 0.5.0
-Requires: BH, R6, Rcpp, tibble, DBI, assertthat, lazyeval, magrittr
 Hash: 68b4b558941f32bbc9bc02135930c141
+Requires: BH, DBI, R6, Rcpp, assertthat, lazyeval, magrittr, tibble
 
 Package: hms
 Source: CRAN
@@ -50,14 +51,14 @@ Hash: 3fca8a1c97e6cfb297fe3f4690f82c58
 Package: htmltools
 Source: CRAN
 Version: 0.3.6
-Requires: Rcpp, digest
 Hash: 5b070a04ef8df1953544873db1c5896e
+Requires: Rcpp, digest
 
 Package: httpuv
 Source: CRAN
 Version: 1.3.5
-Requires: Rcpp
 Hash: 2cc5284565b71276d1faf3d5c043fe4e
+Requires: Rcpp
 
 Package: jsonlite
 Source: CRAN
@@ -87,8 +88,8 @@ Hash: 6ad605ba7b4b476d84be6632393f5765
 Package: readr
 Source: CRAN
 Version: 1.1.1
-Requires: BH, R6, Rcpp, hms, tibble
 Hash: 608d01ba857a1acf3c9ddf6ab3d10869
+Requires: BH, R6, Rcpp, hms, tibble
 
 Package: rlang
 Source: CRAN
@@ -98,13 +99,14 @@ Hash: c17b638e3282aa222a47112d7a60bc66
 Package: shiny
 Source: CRAN
 Version: 1.0.5
-Requires: R6, digest, jsonlite, mime, sourcetools, xtable, httpuv,
-    htmltools
 Hash: 4d47532a807122bfd6bc3818310f9d2e
+Requires: R6, digest, htmltools, httpuv, jsonlite, mime, sourcetools,
+    xtable
 
 Package: shinydashboard
 Source: CRAN
 Version: 0.6.1
+Hash: b48e9bf83e320416eca507dd0d75b362
 Requires: htmltools, shiny
 
 Package: sourcetools
@@ -120,14 +122,14 @@ Hash: b6308e49357a0b475f433599e0d8b5eb
 Package: tibble
 Source: CRAN
 Version: 1.3.4
-Requires: Rcpp, rlang
 Hash: 3111e0d62502af60fe0fa8b4213fedad
+Requires: Rcpp, rlang
 
 Package: tidyr
 Source: CRAN
 Version: 0.6.3
-Requires: Rcpp, tibble, dplyr, lazyeval, magrittr, stringi
 Hash: ab001782aeb1a20618d240e91188d23a
+Requires: Rcpp, dplyr, lazyeval, magrittr, stringi, tibble
 
 Package: xtable
 Source: CRAN
