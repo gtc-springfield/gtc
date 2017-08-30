@@ -17,6 +17,11 @@ shinyUI({
           "Campaign Report", 
           tabName = "campaign", 
           icon = icon("campaign")
+        ),
+        menuItem(
+          "Donations",
+          tabName = "donations",
+          icon = icon("donations")
         ) # end menuItem
       ) # end sidebarMenu
     ), # end dashboardSidebar
@@ -59,7 +64,28 @@ shinyUI({
         tabItem(
           tabName = "campaign",
           h2("empty content")
-        ) # end tabItem
+        ),
+        tabItem(
+          tabName = "donations",
+          h2("Donations"),
+          fluidPage(
+            column(
+              width = 8,
+              box(
+                width = NULL, 
+                sliderInput("time2", "Years to View:",
+                            min = 2004, max = 2017, value = c(2004, 2017))
+              ) #end box
+            ), # end column
+            column(
+              h4("Summed Donations by Year and Amount", align = "center"),
+              width=8, 
+              br(), 
+              plotOutput("pyramid")
+            ) # end column
+            
+          ) #end fluidPage
+        )# end tabItem
       ) # end tabItems
     ) # end dashboardBody
   ) # end dashboardPage
