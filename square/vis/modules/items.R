@@ -1,2 +1,2 @@
 items <-
-  tabItem("markets", fluidRow())
+  tabItem("items", fluidRow())
