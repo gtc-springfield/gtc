@@ -25,7 +25,6 @@ get_top10sellers <- function(d, cat) {
   cat <- enquo(cat)
   cat_name <- quo_name(cat)
   period <- enquo(period)
-  d$`Net Sales` = as.numeric(gsub("\\$", "", d$`Net Sales`))
   d<- d %>% select(!!cat, Qty, `Net Sales`)%>%
     filter(year ==  !!period)%>%
     arrange(desc(!!cat))%>%
@@ -53,7 +52,7 @@ df$`Net Sales` = as.numeric(gsub("\\$", "", df$`Net Sales`))
 
 
 # PLOT 1 :  TOP 10 CATEGORY SALES 
- ggplot(data=d2, aes(x=Category, y=`Net Sales`, fill=Qty)) +
+ ggplot(data=top_items, aes(x=Item, y=Net.Sales, fill=Qty)) +
    geom_bar(stat="identity")
 
  #TABLE 2 : SALES BY ITEM (OVERALL)
