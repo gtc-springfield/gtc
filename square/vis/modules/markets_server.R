@@ -9,7 +9,7 @@ output$overall_sales <- renderValueBox({
 })
 
 output$overall_trans <- renderValueBox({
-  value <- count(trans_filter())
+  value <- nrow(trans_filter())
   shinydashboard::valueBox(
     value,
     subtitle = tags$p("Transactions", style = "font-size: 130%;"),
@@ -58,4 +58,6 @@ output$market_sales_time <- renderPlotly({
 
 output$market_trans_time <- renderPlotly({
   #Plotly line graph for transactions over time by market
+  df <- trans_filter()
+  browse()
 })
