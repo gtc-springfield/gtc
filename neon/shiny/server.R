@@ -179,7 +179,6 @@ shinyServer(function(input, output, session) {
     }
   )
   
-  
   # Donations Tab
   output$pyramid <- renderPlotly({
     p <- donations %>% 
@@ -197,8 +196,6 @@ shinyServer(function(input, output, session) {
       scale_y_continuous(label=dollar_format()) +
       theme_minimal() + labs(y = "Gifts", x ="Year") +
      scale_fill_discrete(drop=FALSE) #+ scale_x_discrete(drop=FALSE)
-
-    
     ggplotly(p) %>% layout(autosize=TRUE)
   }) 
   
@@ -214,9 +211,6 @@ shinyServer(function(input, output, session) {
       theme(axis.title.x = element_text(size = 16)) +
       theme(axis.text.x= element_text(size = 14))+
       theme(axis.text.y= element_text(size = 14)) 
-    
-   # ggplotly(p) %>% layout(autosize=TRUE)
-
   })
   
   output$barchart_count <- renderPlot({
@@ -249,13 +243,7 @@ shinyServer(function(input, output, session) {
   output$summed_donations <- renderDataTable({
     sum_donations()
   })
-  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2] )})
-  }, rownames = FALSE,
-  options = list(
-    searching = FALSE, 
-    lengthChange = FALSE, 
-    pageLength = 20)
-  )
+
   output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
   
  output$tenderTypes <- renderPlotly({
