@@ -106,6 +106,8 @@ shinyServer(function(input, output, session) {
   output$summed_donations <- renderDataTable({
     sum_donations()
   })
+  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
+  
   
   
 })
