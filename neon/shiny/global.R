@@ -4,6 +4,7 @@ library(shiny)
 library(dplyr)
 library(lubridate)
 library(ggplot2)
+library(plotly)
 #library(rHighcharts)
 require(DT)
 
