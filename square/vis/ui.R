@@ -15,9 +15,7 @@ shinyUI({
       menuItem("Comparison", tabName = "comparison",
         icon = icon("calculator")),
       menuItem("Filters", icon = icon("cog"),
-        selectInput("year", label = "Year", choices = "2016"),
-        sliderInput("month", label = "Month",
-          min = 1, max = 12, value = c(1, 12))
+        selectInput("year", label = "Year", choices = years)
       )
     )
   )

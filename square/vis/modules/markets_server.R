@@ -1,5 +1,5 @@
 output$overall_sales <- renderValueBox({
-  value <- 0
+  value <- sum(trans_filter()$Net.Sales)
   shinydashboard::valueBox(
     value,
     subtitle = tags$p("Gross Sales", style = "font-size: 130%;"),
@@ -9,7 +9,7 @@ output$overall_sales <- renderValueBox({
 })
 
 output$overall_trans <- renderValueBox({
-  value <- 0
+  value <- count(trans_filter())
   shinydashboard::valueBox(
     value,
     subtitle = tags$p("Transactions", style = "font-size: 130%;"),
@@ -19,7 +19,7 @@ output$overall_trans <- renderValueBox({
 })
 
 output$overall_avg_trans <- renderValueBox({
-  value <- 0
+  value <- mean(trans_filter()$Net.Sales)
   shinydashboard::valueBox(
     value,
     subtitle = tags$p("Avg Trans. Amount", style = "font-size: 130%;"),

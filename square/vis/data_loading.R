@@ -62,6 +62,7 @@ get_trans_data <- function(df){
     )
   df$Date <- mdy(df$Date)
   df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
+  df <- df %>% mutate(Year = year(Date))
 
   # add code to group by transaction ID
 
@@ -79,6 +80,7 @@ get_items_data <- function(df){
     )
   df$Date <- mdy(df$Date)
   df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
+  df <- df %>% mutate(Year = year(Date))
 
   # add code to group by transaction ID
 
