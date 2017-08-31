@@ -31,7 +31,7 @@ output$items_top <- renderPlotly({
  top_items <- get_topsales(items_filter(), Item)
  top_items <- top_items %>%
    filter((rank(desc(Net.Sales))<=10))
- p <- ggplotly( 
+ p <- ggplotly(
    ggplot(data=top_items, aes(x=Item, y=Net.Sales, fill=Qty)) +
                   geom_bar(stat ="identity")
    )
@@ -44,8 +44,15 @@ output$items_sales_by_cat <- renderDataTable({
   top_cat
 })
 
+output$row_selected <- reactive({
+  return(!is.null(input$items_sales_by_cat_rows_selected))
+})
+
+outputOptions(output, "row_selected", suspendWhenHidden = FALSE)
+
 output$items_sales_by_item <- renderPlotly({
   #Plotly Bar Chart
+  i <- input$items_sales_by_cat_rows_selected
 })
 
 output$items_yearly_comp <- renderDataTable({
