@@ -26,7 +26,7 @@ shinyUI({
           tabName = 'donor',
           fluidPage(
             column(
-              width = 6, 
+              width = 3, 
               box(
                 width = NULL, 
                 #status = "warning", 
@@ -42,7 +42,7 @@ shinyUI({
               ) #end box
             ), # end column
             column(
-              width=8, 
+              width=12, 
               br(), 
               dataTableOutput("top_donors"),
               div(
