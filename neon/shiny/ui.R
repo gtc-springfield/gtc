@@ -68,7 +68,11 @@ shinyUI({
         ), # end tabItem 
         tabItem(
           tabName = "campaign",
-          h3("Campaign content here")
+          h2("Donation Campaign Report", align = "center"),
+          column(
+            width = 12,
+            plotlyOutput("tenderTypes")
+          )
         ),
         tabItem(
           tabName = "donations",
