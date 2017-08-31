@@ -35,10 +35,10 @@ donations$tenderTypeSimple[donations$Tender.Type == "Com. Foundation WMA"
                            | donations$Tender.Type == "Schwab Charitable"
                            | donations$Tender.Type == "Wire Transfer"] <- "Other"
 
-hinyServer(function(input, output, session) {
-
+shinyServer(function(input, output, session) {
+  
   donations_selected <- reactive({
-
+    
     donor_info <- donations %>%
       group_by(Account.ID) %>%
       summarise(
@@ -48,7 +48,7 @@ hinyServer(function(input, output, session) {
         State = first(State),
         ZipCode = first(Zip.Code)
       )
-
+    
     if(input$top_donors != 'All Donation.Years'){
       df <- donations %>%
         filter(Donation.Year == input$top_donors) %>%
@@ -61,12 +61,12 @@ hinyServer(function(input, output, session) {
         summarise(Donation.Amount = sum(Donation.Amount, na.rm=TRUE)) %>%
         arrange(desc(Donation.Amount))
     }
-
+    
     if(nrow(df) > 100){
       df <- df[1:100,]
     }
-
-    df <- df %>%
+    
+    df <- df %>% 
       left_join(
         donor_info,
         by=c("Account.ID" = "Account.ID")
@@ -80,9 +80,9 @@ hinyServer(function(input, output, session) {
         ZipCode,
         Donation.Amount
       )
-
+    
     names(df) <- c(
-      "Account ID",
+      "Account ID", 
       "Donor's Name",
       "Street",
       "City",
@@ -92,26 +92,42 @@ hinyServer(function(input, output, session) {
     )
     return(df)
   })
-
+  
   output$top_donors <- renderDataTable({
     donations_selected()
   })
-
+  
+  # Donations Tab
   output$pyramid <- renderPlot({
     # Filter to Donation.Year span selected
     donations %>% filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
-      group_by(Donation.Year) %>%
+      group_by(Donation.Year) %>% 
       mutate(Year.Sum = sum(Donation.Amount)) %>%
-      ungroup() %>%
+      ungroup() %>% 
       group_by(Donation.Year, Donation.Category) %>%
       summarize(Bin_Sum = sum(Donation.Amount), count = n(), Year.Sum = min(Year.Sum)) %>%
       mutate(Bin_Percent = Bin_Sum / Year.Sum) %>%
-      ggplot(aes(x  = Donation.Year, y = Bin_Sum)) +
+      ggplot(aes(x  = Donation.Year, y = Bin_Sum)) + 
       geom_area(aes(fill = Donation.Category), position = 'stack') + theme_minimal()
-
   })
-
-  output$tenderTypes <- renderPlotly({
+  
+  
+  sum_donations <- reactive({
+    df <- donations %>%
+      filter(Donation.Year  >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
+      group_by(Donation.Category) %>%
+      summarise(Donation.Count = n(),
+                Gift.Total = sum(Donation.Amount, na.rm = T)) %>%
+      mutate(Gift.Total = prettyNum(Gift.Total, big.mark=","),
+             Gift.Total = paste0("$", Gift.Total))
+      return(df)
+  })
+  output$summed_donations <- renderDataTable({
+    sum_donations()
+  })
+  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
+  
+ output$tenderTypes <- renderPlotly({
     #Create new dataframe for plot
     #Sum total amount of money raised for each year
     tenderDonationTotal <- as.data.frame(aggregate(donations$Donation.Amount,
@@ -140,4 +156,5 @@ hinyServer(function(input, output, session) {
                           '<br> Year: ', year)) %>% layout(xaxis = x, yaxis = y, title = "Donations by Tender Type")
 
   })
+  
 })
