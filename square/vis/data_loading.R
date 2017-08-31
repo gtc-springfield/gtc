@@ -70,7 +70,8 @@ get_trans_data <- function(df){
     mutate(Year = year(Date), DOW = wday(Date, label=TRUE))
   df <- df %>%
     group_by(Date, Transaction.ID, Year, DOW) %>%
-    summarise(Net.Sales = sum(Net.Sales))
+    summarise(Net.Sales = sum(Net.Sales)) %>%
+    filter(Net.Sales > 0 && DOW %in% c("Wed", "Thurs", "Sat"))
 
   # add code to group by transaction ID
 
