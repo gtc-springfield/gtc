@@ -22,7 +22,12 @@ shinyUI({
           "Donations",
           tabName = "donations",
           icon = icon("donations")
-        ) # end menuItem
+        ),
+        menuItem(
+          "DCR", 
+          tabName = "DCR", 
+          icon = icon("DCR")
+        )# end menuItem
       ) # end sidebarMenu
     ), # end dashboardSidebar
     dashboardBody(
@@ -31,7 +36,7 @@ shinyUI({
           tabName = 'donor',
           fluidPage(
             column(
-              width = 6, 
+              width = 3, 
               box(
                 width = NULL, 
                 #status = "warning", 
@@ -47,7 +52,7 @@ shinyUI({
               ) #end box
             ), # end column
             column(
-              width=8, 
+              width=12, 
               br(), 
               dataTableOutput("top_donors"),
               div(
@@ -68,23 +73,38 @@ shinyUI({
         tabItem(
           tabName = "donations",
           h2("Donations"),
-          fluidPage(
-            column(
-              width = 8,
+          dashboardBody(
+            fluidRow(shiny::column(4)),
+            fluidRow(
               box(
-                width = NULL, 
-                sliderInput("time2", "Years to View:",
-                            min = 2004, max = 2017, value = c(2004, 2017))
+              title = "Years", width = 12,
+              sliderInput("time2", "Years to View:",
+                          min = 2004, max = 2017, value = c(2004, 2017))
               ) #end box
-            ), # end column
-            column(
-              h4("Summed Donations by Year and Amount", align = "center"),
-              width=8, 
-              br(), 
-              plotOutput("pyramid")
-            ) # end column
+            ), # end fluidRow
             
+            fluidRow(
+              box(
+              title = "Sum",
+              h4("Summed Donations by Year and Amount", align = "left"),
+              width = 5, 
+              plotOutput("pyramid")
+              ), # end box
+              box(
+                title = "Sum Table",
+                h4("Summed Donations by Year and Amount", align = "right"),
+                width = 6, 
+                dataTableOutput("summed_donations")
+              ) # end box
+            ) # end FluidRow
           ) #end fluidPage
+        ),
+        tabItem(
+          tabName = "DCR",
+          h2("Testing DCR integration"),
+          width = 12,
+          br(),
+          chartOutput("chart")
         )# end tabItem
       ) # end tabItems
     ) # end dashboardBody
