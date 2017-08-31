@@ -95,7 +95,7 @@ shinyUI({
             fluidRow(
               column(
                      width = 7,
-                     plotOutput("pyramid")
+                     plotlyOutput("pyramid")
               ),
               column(
                      width = 5,

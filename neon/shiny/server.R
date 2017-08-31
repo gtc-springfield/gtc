@@ -98,9 +98,8 @@ shinyServer(function(input, output, session) {
   })
   
   # Donations Tab
-  output$pyramid <- renderPlot({
-    # Filter to Donation.Year span selected
-    donations %>% filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
+  output$pyramid <- renderPlotly({
+    p <- donations %>% filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
       group_by(Donation.Year) %>% 
       mutate(Year.Sum = sum(Donation.Amount)) %>%
       ungroup() %>% 
@@ -109,7 +108,9 @@ shinyServer(function(input, output, session) {
       mutate(Bin_Percent = Bin_Sum / Year.Sum) %>%
       ggplot(aes(x  = Donation.Year, y = Bin_Sum)) + 
       geom_area(aes(fill = Donation.Category), position = 'stack') + theme_minimal()
-  })
+    
+    ggplotly(p) %>% layout(autosize=TRUE)
+  }) 
   
   
   sum_donations <- reactive({
