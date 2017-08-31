@@ -3,7 +3,7 @@ shinyUI({
   dashboardPage(
     dashboardHeader(
       title='Donor Database (Neon) Reporting and Analysis', 
-      titleWidth = 350
+      titleWidth = 500
     ),
     dashboardSidebar(
       disable = FALSE,

@@ -1,10 +1,10 @@
 
 library(shiny)
-#library(shinydashboard)
+library(shinydashboard)
 library(dplyr)
 library(lubridate)
 library(ggplot2)
-#library(rHighcharts)
+library(rHighcharts)
 require(DT)
 
 dt_format <- function(x, year=1917){
