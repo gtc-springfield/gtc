@@ -49,7 +49,7 @@ shinyServer(function(input, output, session) {
         ZipCode = first(Zip.Code)
       )
     
-    if(input$top_donors != 'All Donation.Years'){
+    if(input$top_donors != 'All Years'){
       df <- donations %>%
         filter(Donation.Year == input$top_donors) %>%
         group_by(Account.ID) %>%
