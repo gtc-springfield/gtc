@@ -17,7 +17,12 @@ items <-
       box(
         title = "Sales by Items",
         span("Bar Chart. Appears when category is selected from table"),
-        plotlyOutput("items_sales_by_item")
+        conditionalPanel("output.row_selected",
+          plotlyOutput("items_sales_by_item")
+        ),
+        conditionalPanel("!output.row_selected",
+          span("Select a category to see the item breakdown.")
+        )
       )
     ),
     fluidRow(

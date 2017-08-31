@@ -4,7 +4,7 @@ library(shinydashboard)
 library(dplyr)
 library(lubridate)
 library(ggplot2)
-library(rHighcharts)
+library(plotly)
 require(DT)
 
 dt_format <- function(x, year=1917){

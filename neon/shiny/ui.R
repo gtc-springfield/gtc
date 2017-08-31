@@ -68,7 +68,11 @@ shinyUI({
         ), # end tabItem 
         tabItem(
           tabName = "campaign",
-          h3("Campaign content here")
+          h2("Donation Campaign Report", align = "center"),
+          column(
+            width = 12,
+            plotlyOutput("tenderTypes")
+          )
         ),
         tabItem(
           tabName = "donations",
@@ -100,14 +104,7 @@ shinyUI({
               
               ) # end FluidRow
           ) # end fluidPage
-        ),
-        tabItem(
-          tabName = "DCR",
-          h2("Testing DCR integration"),
-          width = 12,
-          br(),
-          chartOutput("chart")
-        )# end tabItem
+        )
       ) # end tabItems
     ) # end dashboardBody
   ) # end dashboardPage

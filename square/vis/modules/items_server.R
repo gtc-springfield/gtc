@@ -8,30 +8,11 @@ get_topsales <- function(data, cat) {
   return(d)
 }
 
-datatable_format_pol <- function(data) {
-  datatable(data,
-            rownames = TRUE, # need row names for slicing
-            selection = "single",
-            escape = FALSE,
-            options = list(
-              autoWidth = TRUE,
-              columnDefs =
-                list(
-                  list(visible = FALSE, targets = c(0)),
-                  list(type = "num", targets = c(1, 2))
-                )
-            )
-  ) %>%
-    formatCurrency(3, currency = "$", digits = 2)
-}
-
-
-
 output$items_top <- renderPlotly({
  top_items <- get_topsales(items_filter(), Item)
  top_items <- top_items %>%
    filter((rank(desc(Net.Sales))<=10))
- p <- ggplotly( 
+ p <- ggplotly(
    ggplot(data=top_items, aes(x=Item, y=Net.Sales, fill=Qty)) +
                   geom_bar(stat ="identity")
    )
@@ -40,12 +21,28 @@ output$items_top <- renderPlotly({
 
 output$items_sales_by_cat <- renderDataTable({
   top_cat <- get_topsales(items_filter(), Category)
-  #datatable_format_pol(top_cat)
-  top_cat
+  dat <- datatable(
+    top_cat,
+    selection = "single",
+    options =
+      list(
+        paging = FALSE,
+        searching = FALSE
+      )
+    ) %>%
+    formatCurrency(3, currency = "$", digits = 2)
+  return(dat)
 })
+
+output$row_selected <- reactive({
+  return(!is.null(input$items_sales_by_cat_rows_selected))
+})
+
+outputOptions(output, "row_selected", suspendWhenHidden = FALSE)
 
 output$items_sales_by_item <- renderPlotly({
   #Plotly Bar Chart
+  i <- input$items_sales_by_cat_rows_selected
 })
 
 output$items_yearly_comp <- renderDataTable({
