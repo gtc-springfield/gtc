@@ -14,7 +14,7 @@ read_clean_data <- function() {
   #datadir_items <- "data/items"
   #datadir_trans <- "data/transactions"
   datadir <- "data/items"
-  
+
   #raw_items <- get_raw_data(datadir_items)
   #raw_trans <- get_raw_data(datadir_trans)
   raw <- get_raw(datadir)
@@ -61,13 +61,16 @@ get_trans_data <- function(df){
     select(
       Date,
       Net.Sales,
-      Transaction.ID, 
+      Transaction.ID,
       Payment.ID
     )
   df$Date <- mdy(df$Date)
   df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
-  df <- df %>% 
+  df <- df %>%
     mutate(Year = year(Date), DOW = wday(Date, label=TRUE))
+  df <- df %>%
+    group_by(Date, Transaction.ID, Year, DOW) %>%
+    summarise(Net.Sales = sum(Net.Sales))
 
   # add code to group by transaction ID
 
@@ -85,7 +88,7 @@ get_items_data <- function(df){
     )
   df$Date <- mdy(df$Date)
   df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
-  df <- df %>% mutate(Year = year(Date)) 
+  df <- df %>% mutate(Year = year(Date))
 
   # add code to group by transaction ID
 
