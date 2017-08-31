@@ -58,6 +58,4 @@ output$market_sales_time <- renderPlotly({
 
 output$market_trans_time <- renderPlotly({
   #Plotly line graph for transactions over time by market
-  df <- trans_filter()
-  browse()
 })
