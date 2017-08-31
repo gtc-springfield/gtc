@@ -15,6 +15,7 @@ donations = donations %>%
                                                                               ifelse(Donation.Amount < 100, "Under $100", NA)))))))),
          Donation.Category = factor(Donation.Category, levels = c("Under $100","$100 - $199", "$200 - $299", "$300 - $999", "$1,000 - $4,999", "$5,000 - $9,999", "$10,000 +")))
 
+
 shinyServer(function(input, output, session) {
   
   donations_selected <- reactive({
@@ -77,6 +78,7 @@ shinyServer(function(input, output, session) {
     donations_selected()
   })
   
+  # Donations Tab
   output$pyramid <- renderPlot({
     # Filter to Donation.Year span selected
     donations %>% filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
@@ -88,6 +90,22 @@ shinyServer(function(input, output, session) {
       mutate(Bin_Percent = Bin_Sum / Year.Sum) %>%
       ggplot(aes(x  = Donation.Year, y = Bin_Sum)) + 
       geom_area(aes(fill = Donation.Category), position = 'stack') + theme_minimal()
-    
   })
+  
+  
+  sum_donations <- reactive({
+    df <- donations %>%
+      filter(Donation.Year  >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
+      group_by(Donation.Category) %>%
+      summarise(Donation.Count = n(),
+                Gift.Total = sum(Donation.Amount, na.rm = T)) %>%
+      mutate(Gift.Total = prettyNum(Gift.Total, big.mark=","),
+             Gift.Total = paste0("$", Gift.Total))
+      return(df)
+  })
+  output$summed_donations <- renderDataTable({
+    sum_donations()
+  })
+  
+  
 })
