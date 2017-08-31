@@ -12,18 +12,13 @@ shinyUI({
         icon = icon("bar-chart")),
       menuItem("Items", tabName = "items",
         icon = icon("calculator")),
-      menuItem("Comparison", tabName = "comparison",
-        icon = icon("calculator")),
-      menuItem("Filters", icon = icon("cog"),
-        selectInput("year", label = "Year", choices = years)
-      )
+      selectInput("year", label = "Year", choices = years)
     )
   )
 
   # Tabs ----
   source("modules/markets.R", local = TRUE)
   source("modules/items.R", local = TRUE)
-  source("modules/comparison.R", local = TRUE)
 
   # Body ----
   body <- dashboardBody(
