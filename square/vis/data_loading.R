@@ -66,7 +66,8 @@ get_trans_data <- function(df){
     )
   df$Date <- mdy(df$Date)
   df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
-  mutate(df, Year = year(Date), DOW = wday(Date, label=TRUE))
+  df <- df %>% 
+    mutate(Year = year(Date), DOW = wday(Date, label=TRUE))
 
   # add code to group by transaction ID
 
