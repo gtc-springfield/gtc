@@ -146,6 +146,14 @@ shinyServer(function(input, output, session) {
       ', ranked by donation amount.'
     )
   })
+  output$download_data1 <- downloadHandler(
+    filename = function() {
+      paste('top_donors-', input$top_donors, '.csv', sep='')
+    },
+    content = function(con) {
+      write.csv(donors_selected(), con, row.names=FALSE, col.names = FALSE)
+    }
+  )
   output$top_donations <- renderDataTable({
     donations_selected()
   }, rownames = FALSE,
@@ -162,6 +170,15 @@ shinyServer(function(input, output, session) {
       ', ranked by donation amount.'
     )
   })
+  output$download_data2 <- downloadHandler(
+    filename = function() {
+      paste('top_donations-', input$top_donations, '.csv', sep='')
+    },
+    content = function(con) {
+      write.csv(donations_selected(), con, row.names=FALSE, col.names = FALSE)
+    }
+  )
+  
   
   # Donations Tab
   output$pyramid <- renderPlotly({
