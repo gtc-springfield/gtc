@@ -88,7 +88,7 @@ shinyUI({
             column(
               br(),
               width = 12,  align = 'center', 
-              h4(textOutput("abovePlot")),
+              h3(textOutput("abovePlot")),
               br()
             ), # end column
             fluidRow(
@@ -99,6 +99,21 @@ shinyUI({
               column(
                 width = 5,
                 dataTableOutput("summed_donations")
+              ) # end column
+            ), # end FluidRow
+            br(),
+            br(),
+            width = 12,  align = 'center', 
+            
+            h3("Donation Categories Year-to-Year, Count and Total Gifts"),
+            fluidRow(
+              column(
+                width = 6,
+                plotOutput("barchart_count")
+              ),
+              column(
+                width = 6,
+                plotOutput("barchart_sum")
               ) # end column
             ) # end FluidRow
           ) # end fluidPage

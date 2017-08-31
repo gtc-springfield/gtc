@@ -112,23 +112,55 @@ shinyServer(function(input, output, session) {
   
   # Donations Tab
   output$pyramid <- renderPlotly({
-    p <- donations %>% filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
+    p <- donations %>% 
+      filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
       group_by(Donation.Year) %>% 
       mutate(Year.Sum = sum(Donation.Amount)) %>%
       ungroup() %>% 
       group_by(Donation.Year, Donation.Category) %>%
-      summarize(Bin_Sum = sum(Donation.Amount), count = n(), Year.Sum = min(Year.Sum)) %>%
-      mutate(Bin_Percent = Bin_Sum / Year.Sum/1000) %>%
-      ggplot(aes(x  = Donation.Year, y = Bin_Sum)) + 
+      summarize(Category.Sum = sum(Donation.Amount), 
+                count = n(), 
+                Year.Sum = min(Year.Sum)) %>%
+      mutate(Bin_Percent = Category.Sum / Year.Sum) %>%
+      ggplot(aes(x  = Donation.Year, y = Category.Sum)) + 
       geom_area(aes(fill = Donation.Category), position = 'stack') + 
       scale_y_continuous(label=dollar_format()) +
-      theme_minimal() + labs(y = "Gifts (Thousands)", x ="Year")
+      theme_minimal() + labs(y = "Gifts", x ="Year") +
+     scale_fill_discrete(drop=FALSE) #+ scale_x_discrete(drop=FALSE)
 
     
     ggplotly(p) %>% layout(autosize=TRUE)
   }) 
   
+  output$barchart_sum <- renderPlot({
+    donations %>%
+      filter(Donation.Year, input$time2[1] & Donation.Year <= input$time2[2]) %>%
+      ggplot(aes(x=as.factor(Donation.Year), y = Donation.Amount, fill=Donation.Category)) + 
+      geom_bar(stat = 'identity') + theme_bw() + coord_flip() + 
+      labs(y = "Gift Total", x = "Year", fill = "Donation Category") +
+      scale_y_continuous(label = dollar_format()) + #ylim(input$time2[1], input$time2[2]) +
+      theme_minimal() + labs(y = "Total Gifts", x ="") +
+      theme(axis.title.y = element_text(size = 16)) +
+      theme(axis.title.x = element_text(size = 16)) +
+      theme(axis.text.x= element_text(size = 14))+
+      theme(axis.text.y= element_text(size = 14)) 
+    
+   # ggplotly(p) %>% layout(autosize=TRUE)
+
+  })
   
+  output$barchart_count <- renderPlot({
+    donations %>%
+      filter(Donation.Year, input$time2[1] & Donation.Year <= input$time2[2]) %>%
+      ggplot(aes(x=as.factor(Donation.Year), fill = Donation.Category)) + 
+      geom_bar() + theme_bw() + coord_flip() + 
+      labs(y = "Number of Gifts", x = "", fill = "Donation Category") +
+      theme(axis.title.y = element_text(size = 16)) +
+      theme(axis.title.x = element_text(size = 16)) +
+      theme(axis.text.x= element_text(size = 14))+
+      theme(axis.text.y= element_text(size = 14)) 
+  })
+ 
   sum_donations <- reactive({
     df <- donations %>%
       filter(Donation.Year  >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
@@ -142,7 +174,7 @@ shinyServer(function(input, output, session) {
   output$summed_donations <- renderDataTable({
     sum_donations()
   })
-  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
+  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2] )})
   
  output$tenderTypes <- renderPlotly({
     #Create new dataframe for plot
