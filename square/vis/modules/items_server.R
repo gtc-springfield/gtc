@@ -12,11 +12,19 @@ output$items_top <- renderPlotly({
  top_items <- get_topsales(items_filter(), Item)
  top_items <- top_items %>%
    filter((rank(desc(Net.Sales))<=10))
+ 
  p <- ggplotly(
    ggplot(data=top_items, aes(x=Item, y=Net.Sales, fill=Qty)) +
-                  geom_bar(stat ="identity")
-   )
+     geom_bar(stat ="identity") + 
+     theme(panel.background = element_blank(), 
+           axis.text.x=element_text(angle=90, hjust=1),
+           axis.title.x=element_blank()) + 
+     labs( y = "Net Sales($)")
+ )
  p
+
+
+
   })
 
 output$items_sales_by_cat <- renderDataTable({
@@ -43,7 +51,25 @@ outputOptions(output, "row_selected", suspendWhenHidden = FALSE)
 
 output$items_sales_by_item <- renderPlotly({
   #Plotly Bar Chart
-  i <- input$items_sales_by_cat_rows_selected
+  clicked <- input$items_sales_by_cat_rows_selected
+  print(clicked)
+  top_cat <- get_topsales(items_filter(), Category)
+  cat <- top_cat$Category[clicked]
+  
+  d <- items_filter() %>% filter(Category == cat)
+  top_items <- get_topsales(d, Item)
+  p <- ggplotly(
+   ggplot(data=top_items, aes(x=Item, y=Net.Sales, fill=Qty)) +
+      geom_bar(stat ="identity") + 
+     theme(panel.background = element_blank(), 
+           axis.text.x=element_text(angle=90, hjust=1),
+            axis.title.x=element_blank()) + 
+     labs( y = "Net Sales($)")
+  )
+  p
+  
+  
+  
 })
 
 output$items_yearly_comp <- renderDataTable({

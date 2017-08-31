@@ -118,9 +118,12 @@ shinyServer(function(input, output, session) {
       ungroup() %>% 
       group_by(Donation.Year, Donation.Category) %>%
       summarize(Bin_Sum = sum(Donation.Amount), count = n(), Year.Sum = min(Year.Sum)) %>%
-      mutate(Bin_Percent = Bin_Sum / Year.Sum) %>%
+      mutate(Bin_Percent = Bin_Sum / Year.Sum/1000) %>%
       ggplot(aes(x  = Donation.Year, y = Bin_Sum)) + 
-      geom_area(aes(fill = Donation.Category), position = 'stack') + theme_minimal()
+      geom_area(aes(fill = Donation.Category), position = 'stack') + 
+      scale_y_continuous(label=dollar_format()) +
+      theme_minimal() + labs(y = "Gifts (Thousands)", x ="Year")
+
     
     ggplotly(p) %>% layout(autosize=TRUE)
   }) 
