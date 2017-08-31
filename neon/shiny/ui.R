@@ -104,14 +104,7 @@ shinyUI({
               
               ) # end FluidRow
           ) # end fluidPage
-        ),
-        tabItem(
-          tabName = "DCR",
-          h2("Testing DCR integration"),
-          width = 12,
-          br(),
-          chartOutput("chart")
-        )# end tabItem
+        )
       ) # end tabItems
     ) # end dashboardBody
   ) # end dashboardPage
