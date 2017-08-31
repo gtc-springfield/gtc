@@ -1,6 +1,7 @@
 
 shinyUI({
   dashboardPage(
+    skin = 'blue',
     dashboardHeader(
       title='Donor Database (Neon) Reporting and Analysis', 
       titleWidth = 500
@@ -10,24 +11,20 @@ shinyUI({
       sidebarMenu(
         menuItem(
           "Donor Report", 
-          tabName = "donor", 
-          icon = icon("report")
+          tabName = "donor"
         ),
         menuItem(
           "Campaign Report", 
-          tabName = "campaign", 
-          icon = icon("campaign")
+          tabName = "campaign"
         ),
         menuItem(
           "Donations",
-          tabName = "donations",
-          icon = icon("donations")
+          tabName = "donations"
         ),
         menuItem(
           "DCR", 
-          tabName = "DCR", 
-          icon = icon("DCR")
-        )# end menuItem
+          tabName = "DCR"
+        ) # end menuItem
       ) # end sidebarMenu
     ), # end dashboardSidebar
     dashboardBody(
@@ -36,19 +33,20 @@ shinyUI({
           tabName = 'donor',
           fluidPage(
             column(
-              width = 3, 
+              width = 6, 
               box(
                 width = NULL, 
-                #status = "warning", 
                 selectInput(
                   "top_donors", 
-                  "Top 100 Donors", 
+                  "Select a donation year", 
                   choices = c(
                     "All Years",
                     seq(from = 2017, to = 2004, by = -1)
                   ), 
-                  selected = 2017
-                )
+                  selected = 2017,
+                  width = '70%'
+                ), # end selectInput
+                h5(textOutput("top_donors_txt"))
               ) #end box
             ), # end column
             column(
@@ -81,10 +79,15 @@ shinyUI({
               width = 6, align = 'left', 
               box(
                 width = NULL, 
-                #status = "warning", 
-                sliderInput("time2", "Years to View:",
-                            min = 2004, max = 2017, value = c(2004, 2017), sep ="")
-              ) #end box
+                sliderInput(
+                  "time2", 
+                  "Years to View:",
+                  min = 2004, 
+                  max = 2017, 
+                  value = c(2004, 2017), 
+                  sep =""
+                ) # end slideInput
+              ) # end box
             ), # end column
             column(
               br(),
@@ -94,17 +97,16 @@ shinyUI({
             ), # end column
             fluidRow(
               column(
-                     width = 7,
-                     plotlyOutput("pyramid")
+                width = 7,
+                plotlyOutput("pyramid")
               ),
               column(
-                     width = 5,
-                     dataTableOutput("summed_donations")
-              )
-              
-              ) # end FluidRow
+                width = 5,
+                dataTableOutput("summed_donations")
+              ) # end column
+            ) # end FluidRow
           ) # end fluidPage
-        )
+        ) # end tabItem
       ) # end tabItems
     ) # end dashboardBody
   ) # end dashboardPage

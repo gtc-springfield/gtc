@@ -95,6 +95,19 @@ shinyServer(function(input, output, session) {
   
   output$top_donors <- renderDataTable({
     donations_selected()
+  }, rownames = FALSE,
+     options = list(
+       order = list(list(6, 'desc')), 
+       searching = FALSE, 
+       lengthChange = TRUE, 
+       pageLength = 20)
+  )
+  output$top_donors_txt <- renderText({
+    paste0(
+      'Below is a list of top 100 donors from ', 
+      input$top_donors, 
+      ', ranked by donation amount.'
+    )
   })
   
   # Donations Tab
