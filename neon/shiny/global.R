@@ -6,6 +6,7 @@ library(lubridate)
 library(ggplot2)
 library(plotly)
 require(DT)
+library(scales)
 
 dt_format <- function(x, year=1917){
   m <- year(x) %% 100
