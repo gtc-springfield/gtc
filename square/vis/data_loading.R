@@ -27,7 +27,7 @@ read_clean_data <- function() {
 read_clean_data_items_only <- function() {
   datadir_items <- "data/items"
 
-  raw_items <- get_raw_data(datadir_items)
+  raw_items <- get_raw(datadir_items)
   return(raw_items)
 
   #add code to make sure the files in each folder are as one dataframe

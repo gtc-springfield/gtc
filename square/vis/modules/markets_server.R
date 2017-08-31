@@ -9,7 +9,7 @@ output$overall_sales <- renderValueBox({
 })
 
 output$overall_trans <- renderValueBox({
-  value <- count(trans_filter())
+  value <- nrow(trans_filter())
   shinydashboard::valueBox(
     value,
     subtitle = tags$p("Transactions", style = "font-size: 130%;"),
