@@ -1,9 +1,10 @@
 rm(list=ls())
 
+#library(lubridate)
+
 setwd("./square/vis")
 source("data_loading.R")
 
-raw_data <- read_clean_data()
-raw_items <- raw_data[[1]]
-raw_trans <- raw_data[[2]]
+data_raw <- read_clean_data()
 
+data_trans <- get_trans_data(data_raw)
