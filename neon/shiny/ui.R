@@ -10,8 +10,15 @@ shinyUI({
       disable = FALSE,
       sidebarMenu(
         menuItem(
-          "Donor Report", 
-          tabName = "donor"
+          "Donor Report",
+          menuSubItem(
+            "Top Donors",
+            tabName = "top_donors"
+          ),
+          menuSubItem(
+            "Top Donations",
+            tabName = "top_donations"
+          )
         ),
         menuItem(
           "Campaign Report", 
@@ -26,7 +33,7 @@ shinyUI({
     dashboardBody(
       tabItems(
         tabItem(
-          tabName = 'donor',
+          tabName = 'top_donors',
           fluidPage(
             column(
               width = 6, 
@@ -51,7 +58,7 @@ shinyUI({
               dataTableOutput("top_donors"),
               div(
                 downloadButton(
-                  'download_data', 
+                  'download_data1', 
                   label="Download", 
                   class = NULL
                 ), 
@@ -60,6 +67,41 @@ shinyUI({
             ) # end column
           ) # end fluidPage
         ), # end tabItem 
+        tabItem(
+          tabName = "top_donations",
+          fluidPage(
+            column(
+              width = 6,
+              box(
+                width = NULL,
+                selectInput(
+                  "top_donations",
+                  "Select a donation year",
+                  choices = c(
+                    "All Years",
+                    seq(from = 2017, to = 2004, by = -1)
+                  ),
+                  selected = 2017,
+                  width = '70%'
+                ), # end selectInput
+                h5(textOutput("top_donations_txt"))
+              ) #end box
+            ), # end column
+            column(
+              width=12,
+              br(),
+              dataTableOutput("top_donations"),
+              div(
+                downloadButton(
+                  'download_data2',
+                  label="Download",
+                  class = NULL
+                ),
+                align='left'
+              ) # end div
+            ) # end column
+          ) # end fluidPage
+        ), # end tabItem
         tabItem(
           tabName = "campaign",
           h2("Donation Campaign Report", align = "center"),

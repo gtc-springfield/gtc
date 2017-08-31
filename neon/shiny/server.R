@@ -16,7 +16,7 @@ donations = donations %>%
                                                                        ifelse(Donation.Amount >= 100 & Donation.Amount <= 199, "$100 - $199",
                                                                               ifelse(Donation.Amount < 100, "Under $100", NA)))))))),
          Donation.Category = factor(Donation.Category, levels = c("Under $100","$100 - $199", "$200 - $299", "$300 - $999", "$1,000 - $4,999", "$5,000 - $9,999", "$10,000 +")))
-#Populate column that simplifies tender type
+# Populate column that simplifies tender type
 donations$tenderTypeSimple <- as.character(donations$Tender.Type)
 donations$tenderTypeSimple[donations$Tender.Type == "Paypal"
                            | donations$Tender.Type == "Kimbia"
@@ -37,8 +37,7 @@ donations$tenderTypeSimple[donations$Tender.Type == "Com. Foundation WMA"
 
 shinyServer(function(input, output, session) {
   
-  donations_selected <- reactive({
-    
+  donors_selected <- reactive({
     donor_info <- donations %>%
       group_by(Account.ID) %>%
       summarise(
@@ -48,7 +47,6 @@ shinyServer(function(input, output, session) {
         State = first(State),
         ZipCode = first(Zip.Code)
       )
-    
     if(input$top_donors != 'All Years'){
       df <- donations %>%
         filter(Donation.Year == input$top_donors) %>%
@@ -61,11 +59,9 @@ shinyServer(function(input, output, session) {
         summarise(Donation.Amount = sum(Donation.Amount, na.rm=TRUE)) %>%
         arrange(desc(Donation.Amount))
     }
-    
     if(nrow(df) > 100){
       df <- df[1:100,]
     }
-    
     df <- df %>% 
       left_join(
         donor_info,
@@ -80,7 +76,6 @@ shinyServer(function(input, output, session) {
         ZipCode,
         Donation.Amount
       )
-    
     names(df) <- c(
       "Account ID", 
       "Donor's Name",
@@ -93,8 +88,50 @@ shinyServer(function(input, output, session) {
     return(df)
   })
   
+  donations_selected <- reactive({
+    if(input$top_donations != "All Years"){
+      df <- donations %>%
+        filter(
+          Donation.Year == input$top_donations,
+          Donation.Amount >= 200
+        ) %>%
+        select(
+          Account.ID,
+          Full.Name..F.,
+          Address.Line.1,
+          City,
+          State,
+          Zip.Code,
+          Donation.Amount
+        )
+    } else{
+      df <- donations %>%
+        filter(Donation.Amount >= 200) %>%
+        select(
+          Account.ID,
+          Full.Name..F.,
+          Address.Line.1,
+          City,
+          State,
+          Zip.Code,
+          Donation.Amount
+        )
+    }
+    
+    df <- df %>%
+      rename(
+        "Account ID" = "Account.ID",
+        "Donor's Name" = "Full.Name..F.",
+        "Street" = "Address.Line.1",
+        "Zip Code" = "Zip.Code",
+        "Donation Amount" = "Donation.Amount"
+      )
+    
+    return(df)
+  })
+  
   output$top_donors <- renderDataTable({
-    donations_selected()
+    donors_selected()
   }, rownames = FALSE,
      options = list(
        order = list(list(6, 'desc')), 
@@ -106,6 +143,22 @@ shinyServer(function(input, output, session) {
     paste0(
       'Below is a list of top 100 donors from ', 
       input$top_donors, 
+      ', ranked by donation amount.'
+    )
+  })
+  output$top_donations <- renderDataTable({
+    donations_selected()
+  }, rownames = FALSE,
+  options = list(
+    order = list(list(6, 'desc')),
+    searching = FALSE,
+    lengthChange = TRUE,
+    pageLength = 20)
+  )
+  output$top_donations_txt <- renderText({
+    paste0(
+      'Below is a list of donations > 200 from ',
+      input$top_donations,
       ', ranked by donation amount.'
     )
   })
@@ -168,13 +221,25 @@ shinyServer(function(input, output, session) {
       summarise(Donation.Count = n(),
                 Gift.Total = sum(Donation.Amount, na.rm = T)) %>%
       mutate(Gift.Total = prettyNum(Gift.Total, big.mark=","),
-             Gift.Total = paste0("$", Gift.Total))
+             Gift.Total = paste0("$", Gift.Total)) %>%
+      rename(
+        "Donation Category" = "Donation.Category",
+        "Count" = "Donation.Count",
+        "Gift Total" = "Gift.Total"
+      )
       return(df)
   })
   output$summed_donations <- renderDataTable({
     sum_donations()
   })
   output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2] )})
+  }, rownames = FALSE,
+  options = list(
+    searching = FALSE, 
+    lengthChange = FALSE, 
+    pageLength = 20)
+  )
+  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
   
  output$tenderTypes <- renderPlotly({
     #Create new dataframe for plot
