@@ -19,11 +19,43 @@ output$overall_trans <- renderValueBox({
 })
 
 output$overall_avg_trans <- renderValueBox({
-  value <- mean(trans_filter()$Net.Sales)
+  value <- format(mean(trans_filter()$Net.Sales), digits = 2, zero.print = TRUE)
   shinydashboard::valueBox(
     value,
     subtitle = tags$p("Avg Trans. Amount", style = "font-size: 130%;"),
     icon = icon("money"),
     color = "orange"
   )
+})
+
+output$overall_sales_time <- renderPlotly({
+  #Plotly Line Chart for overall sales over time
+})
+
+output$overall_trans_time <- renderPlotly({
+  #Plotly Line Chart for overall transactions over time
+})
+
+output$market_sales <- renderPlotly({
+  #Plotly Bar Chart for sales by market
+})
+
+output$market_num_trans <- renderPlotly({
+  #Plotly Bar Chart for number of transactions by Market
+})
+
+output$market_avg_trans <- renderPlotly({
+  #Plotly Bar Chart for average transaction by Market
+})
+
+output$market_share <- renderPlotly({
+  #Plotly Pie Chart for share of total sales by market
+})
+
+output$market_sales_time <- renderPlotly({
+  #Plotly line graph for sales over time by market
+})
+
+output$market_trans_time <- renderPlotly({
+  #Plotly line graph for transactions over time by market
 })

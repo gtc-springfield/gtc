@@ -1,5 +1,7 @@
 library(shiny)
 library(shinydashboard)
+library(DT)
+library(plotly)
 
 source("data_loading.R")
 
