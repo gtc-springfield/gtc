@@ -5,6 +5,7 @@
 library(dplyr)
 library(readr)
 library(tidyr)
+library(lubridate)
 
 
 
@@ -16,6 +17,15 @@ read_clean_data <- function() {
   raw_items <- get_raw_data(datadir_items)
   raw_trans <- get_raw_data(datadir_trans)
   return(list(raw_items, raw_trans))
+
+  #add code to make sure the files in each folder are as one dataframe
+}
+
+read_clean_data_items_only <- function() {
+  datadir_items <- "data/items"
+
+  raw_items <- get_raw_data(datadir_items)
+  return(raw_items)
 
   #add code to make sure the files in each folder are as one dataframe
 }
@@ -32,7 +42,7 @@ get_raw_data <- function(datadir){
       n_files = n_files + 1
     }
     else{
-      data_more <- read.csv(file)
+      data_more <- read.csv(file, stringsAsFactors = FALSE)
       data <- rbind(data, data_more)
       rm(data_more)
       n_files = n_files + 1
@@ -41,6 +51,38 @@ get_raw_data <- function(datadir){
   }
   return(data)
 
+}
+
+get_trans_data <- function(df){
+  df <- df %>%
+    select(
+      Date,
+      Net.Sales,
+      Transaction.ID
+    )
+  df$Date <- mdy(df$Date)
+  df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
+
+  # add code to group by transaction ID
+
+  return(df)
+}
+
+get_items_data <- function(df){
+  df <- df %>%
+    select(
+      Date,
+      Category,
+      Item,
+      Qty,
+      Net.Sales
+    )
+  df$Date <- mdy(df$Date)
+  df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
+
+  # add code to group by transaction ID
+
+  return(df)
 }
 
 
