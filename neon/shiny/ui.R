@@ -68,36 +68,38 @@ shinyUI({
         ), # end tabItem 
         tabItem(
           tabName = "campaign",
-          h2("empty content")
+          h3("Campaign content here")
         ),
         tabItem(
           tabName = "donations",
-          h2("Donations"),
-          dashboardBody(
-            fluidRow(shiny::column(4)),
-            fluidRow(
+          fluidPage(
+            column(
+              width = 6, align = 'left', 
               box(
-              title = "Years", width = 12,
-              sliderInput("time2", "Years to View:",
-                          min = 2004, max = 2017, value = c(2004, 2017))
+                width = NULL, 
+                #status = "warning", 
+                sliderInput("time2", "Years to View:",
+                            min = 2004, max = 2017, value = c(2004, 2017), sep ="")
               ) #end box
-            ), # end fluidRow
-            
+            ), # end column
+            column(
+              br(),
+              width = 12,  align = 'center', 
+              h4(textOutput("abovePlot")),
+              br()
+            ), # end column
             fluidRow(
-              box(
-              title = "Sum",
-              h4("Summed Donations by Year and Amount", align = "left"),
-              width = 5, 
-              plotOutput("pyramid")
-              ), # end box
-              box(
-                title = "Sum Table",
-                h4("Summed Donations by Year and Amount", align = "right"),
-                width = 6, 
-                dataTableOutput("summed_donations")
-              ) # end box
-            ) # end FluidRow
-          ) #end fluidPage
+              column(
+                     width = 7,
+                     plotOutput("pyramid")
+              ),
+              column(
+                     width = 5,
+                     dataTableOutput("summed_donations")
+              )
+              
+              ) # end FluidRow
+          ) # end fluidPage
         ),
         tabItem(
           tabName = "DCR",
