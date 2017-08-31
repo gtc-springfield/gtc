@@ -20,11 +20,7 @@ shinyUI({
         menuItem(
           "Donations",
           tabName = "donations"
-        ),
-        menuItem(
-          "DCR", 
-          tabName = "DCR"
-        ) # end menuItem
+        )
       ) # end sidebarMenu
     ), # end dashboardSidebar
     dashboardBody(
