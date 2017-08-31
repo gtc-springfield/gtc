@@ -11,13 +11,15 @@ markets <-
       fluidRow(
         box(
           title = "Sales over Time",
-          width = 12
+          width = 12,
+          span("Line chart")
         )
       ),
       fluidRow(
         box(
           title = "Transactions over Time",
-          width = 12
+          width = 12,
+          span("Line chart")
         )
       )
     ),
