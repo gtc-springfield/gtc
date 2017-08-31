@@ -24,6 +24,7 @@ output$items_sales_by_cat <- renderDataTable({
   dat <- datatable(
     top_cat,
     selection = "single",
+    rownames = FALSE,
     options =
       list(
         paging = FALSE,
@@ -46,5 +47,22 @@ output$items_sales_by_item <- renderPlotly({
 })
 
 output$items_yearly_comp <- renderDataTable({
-  #DT table for yearly comparison
+  test <- items %>%
+    select(Category, Net.Sales, Year) %>%
+    group_by(Category, Year) %>%
+    summarise(Net.Sales = sum(Net.Sales))
+  test_spread <- test %>% spread(Year, Net.Sales, fill = 0)
+  dat <- datatable(
+    test_spread,
+    selection = "single",
+    rownames = FALSE,
+    options =
+      list(
+        paging = FALSE,
+        searching = FALSE
+      )
+  ) %>%
+    formatCurrency(c(3, 4), currency = "$", digits = 2)
+  return(dat)
+
 })
