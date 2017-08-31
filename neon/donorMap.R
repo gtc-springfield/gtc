@@ -1,10 +1,12 @@
 library(leaflet)
+library(ggmap)
 
 #Geocoding the addresses
 #Combine addresses into one column
 donations$address <- paste(donations$Address.Line.1, donations$City, donations$State, sep = ', ')
 #Remove NAs
-donations$address <- gsub('NA,|,NA|NA', '', donations$address)
+donations$address <- gsub("^, ", '', donations$address)
+donations$address <- gsub("^,", '', donations$address)
 
 #Add new dataframe with only unique addresses
 geoCode <- distinct(donations, address)
