@@ -55,19 +55,6 @@ plot_ly() %>%
             data = data_sales_by_market[[3]], 
             name = "Saturday", 
             type = "scatter", mode = "lines")
-  # add_lines(data_sales_by_market[[1]], 
-  #           x = ~Date, y = ~Daily.Net.Sales, 
-  #           name = "Wednesday") %>%
-  # add_lines(data_sales_by_market[[2]], 
-  #           x = ~Date, y = ~Daily.Net.Sales, 
-  #           name = "Thursday") %>% 
-  # add_lines(data_sales_by_market[[3]], 
-  #           x = ~Date, y = ~Daily.Net.Sales, 
-  #           name = "Saturday") 
-  #layout(
-    #title = "Double Y Axis", yaxis2 = ay,
-    #xaxis = list(title="x")
-  #)
 
 data_trans_num_by_market <- trans_num_over_time_by_market(data_trans)
 plot_ly() %>%
