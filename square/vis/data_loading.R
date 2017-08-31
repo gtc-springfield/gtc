@@ -68,6 +68,7 @@ get_trans_data <- function(df){
   df$Net.Sales <- as.numeric(gsub("\\$", "", df$Net.Sales))
   df <- df %>%
     mutate(Year = year(Date), DOW = wday(Date, label=TRUE))
+  df$DOW <- as.character(df$DOW)
   df <- df %>%
     group_by(Date, Transaction.ID, Year, DOW) %>%
     summarise(Net.Sales = sum(Net.Sales)) %>%
