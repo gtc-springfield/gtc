@@ -2,15 +2,15 @@
 
 .dygraph-axis-label {font-size: 11px;}
 
-.skin-blue .main-header .logo {background-color:#012F6B;
+.skin-blue .main-header .logo {background-color:green;
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
   font-size: 18px;
   text-align:left;
   font-weight:bold;
 }
 
-.skin-blue .main-header .logo:hover {background-color:#012F6B;}
+.skin-blue .main-header .logo:hover {background-color:green;}
 
-.skin-blue .main-header .navbar {background-color:#012F6B;}
+.skin-blue .main-header .navbar {background-color:green;}
 
 .box-comments {background: white;}
