@@ -299,7 +299,6 @@ shinyServer(function(input, output, session) {
       theme(axis.title.x = element_text(size = 16)) +
       theme(axis.text.x= element_text(size = 14))+
       theme(axis.text.y= element_text(size = 14)) 
-      theme(axis.text.y= element_text(size = 14))
 
    # ggplotly(p) %>% layout(autosize=TRUE)
   })
