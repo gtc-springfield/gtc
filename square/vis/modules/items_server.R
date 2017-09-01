@@ -9,17 +9,18 @@ get_topsales <- function(data, cat) {
 }
 
  fix_names <- function(data){
-      d <- lapply(data, function(x) {gsub(", ", "\n", x)})
-      d <- as.data.frame(d) 
-      d$Qty <- as.numeric(d$Qty)
-      return(d)
+      #d <- lapply(data, function(x) {gsub(", ", "\n", x)})
+      #d <- as.data.frame(d)
+      #d$Qty <- as.numeric(d$Qty)
+   data$Item <- gsub(", ", "\n", data$Item)
+      return(data)
     }
 
 
 output$items_top <- renderPlotly({
  top_items <- get_topsales(items_filter(), Item)
  top_items <- fix_names(top_items)
- 
+
  top_items <- top_items %>%
    filter((rank(desc(Net.Sales))<=10))
 
@@ -66,17 +67,22 @@ output$items_sales_by_item <- renderPlotly({
 
   d <- items_filter() %>% filter(Category == cat)
   top_items <- get_topsales(d, Item)
-  p <- ggplotly(
-   ggplot(data=top_items, aes(x=Item, y=Net.Sales, fill=Qty)) +
-      geom_bar(stat ="identity") +
-     theme(panel.background = element_blank(),
-           axis.text.x=element_text(angle=90, hjust=1),
-            axis.title.x=element_blank()) +
-     labs( y = "Net Sales($)")
-  )
-  p
+  top_items <- fix_names(top_items)
+  x <- list(
+    title = "Item")
+  y <- list(
+    title = "Net Sales ($)")
 
-
+  plot_ly(top_items,
+    type = 'bar',
+    x = ~Item,
+    y = ~Net.Sales) %>%
+    layout(
+      xaxis = x,
+      yaxis = y,
+      margin =
+        list(b = 100, t = 50)
+    )
 
 })
 

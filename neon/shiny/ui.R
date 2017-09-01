@@ -114,6 +114,7 @@ shinyUI({
             )
           ),
           fluidRow(
+            h2("Donation Map, City Level", align = "center"),
             box(
               leafletOutput("donor_map"),
               width = 12

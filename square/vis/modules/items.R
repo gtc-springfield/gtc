@@ -15,7 +15,7 @@ items <-
       box(
         title = "Sales by Items",
         conditionalPanel("output.row_selected",
-          plotlyOutput("items_sales_by_item")
+          plotlyOutput("items_sales_by_item", height = "550px")
         ),
         conditionalPanel("!output.row_selected",
           span("Select a category to see the item breakdown.")
