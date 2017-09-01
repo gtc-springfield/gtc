@@ -36,7 +36,7 @@ donations$tenderTypeSimple[donations$Tender.Type == "Com. Foundation WMA"
                            | donations$Tender.Type == "Wire Transfer"] <- "Other"
 
 shinyServer(function(input, output, session) {
-  
+
   donors_selected <- reactive({
     donor_info <- donations %>%
       group_by(Account.ID) %>%
@@ -62,7 +62,7 @@ shinyServer(function(input, output, session) {
     if(nrow(df) > 100){
       df <- df[1:100,]
     }
-    df <- df %>% 
+    df <- df %>%
       left_join(
         donor_info,
         by=c("Account.ID" = "Account.ID")
@@ -77,7 +77,7 @@ shinyServer(function(input, output, session) {
         Donation.Amount
       )
     names(df) <- c(
-      "Account ID", 
+      "Account ID",
       "Donor's Name",
       "Street",
       "City",
@@ -87,7 +87,7 @@ shinyServer(function(input, output, session) {
     )
     return(df)
   })
-  
+
   donations_selected <- reactive({
     if(input$top_donations != "All Years"){
       df <- donations %>%
@@ -117,7 +117,7 @@ shinyServer(function(input, output, session) {
           Donation.Amount
         )
     }
-    
+
     df <- df %>%
       rename(
         "Account ID" = "Account.ID",
@@ -126,23 +126,23 @@ shinyServer(function(input, output, session) {
         "Zip Code" = "Zip.Code",
         "Donation Amount" = "Donation.Amount"
       )
-    
+
     return(df)
   })
-  
+
   output$top_donors <- renderDataTable({
     donors_selected()
   }, rownames = FALSE,
      options = list(
-       order = list(list(6, 'desc')), 
-       searching = FALSE, 
-       lengthChange = TRUE, 
+       order = list(list(6, 'desc')),
+       searching = FALSE,
+       lengthChange = TRUE,
        pageLength = 20)
   )
   output$top_donors_txt <- renderText({
     paste0(
-      'Below is a list of top 100 donors from ', 
-      input$top_donors, 
+      'Below is a list of top 100 donors from ',
+      input$top_donors,
       ', ranked by donation amount.'
     )
   })
@@ -178,59 +178,59 @@ shinyServer(function(input, output, session) {
       write.csv(donations_selected(), con, row.names=FALSE, col.names = FALSE)
     }
   )
-  
-  
+
+
   # Donations Tab
   output$pyramid <- renderPlotly({
-    p <- donations %>% 
+    p <- donations %>%
       filter(Donation.Year >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
-      group_by(Donation.Year) %>% 
+      group_by(Donation.Year) %>%
       mutate(Year.Sum = sum(Donation.Amount)) %>%
-      ungroup() %>% 
+      ungroup() %>%
       group_by(Donation.Year, Donation.Category) %>%
-      summarize(Category.Sum = sum(Donation.Amount), 
-                count = n(), 
+      summarize(Category.Sum = sum(Donation.Amount),
+                count = n(),
                 Year.Sum = min(Year.Sum)) %>%
       mutate(Bin_Percent = Category.Sum / Year.Sum) %>%
-      ggplot(aes(x  = Donation.Year, y = Category.Sum)) + 
-      geom_area(aes(fill = Donation.Category), position = 'stack') + 
+      ggplot(aes(x  = Donation.Year, y = Category.Sum)) +
+      geom_area(aes(fill = Donation.Category), position = 'stack') +
       scale_y_continuous(label=dollar_format()) +
       theme_minimal() + labs(y = "Gifts", x ="Year") +
      scale_fill_discrete(drop=FALSE) #+ scale_x_discrete(drop=FALSE)
 
-    
+
     ggplotly(p) %>% layout(autosize=TRUE)
-  }) 
-  
+  })
+
   output$barchart_sum <- renderPlot({
     donations %>%
       filter(Donation.Year, input$time2[1] & Donation.Year <= input$time2[2]) %>%
-      ggplot(aes(x=as.factor(Donation.Year), y = Donation.Amount, fill=Donation.Category)) + 
-      geom_bar(stat = 'identity') + theme_bw() + coord_flip() + 
+      ggplot(aes(x=as.factor(Donation.Year), y = Donation.Amount, fill=Donation.Category)) +
+      geom_bar(stat = 'identity') + theme_bw() + coord_flip() +
       labs(y = "Gift Total", x = "Year", fill = "Donation Category") +
       scale_y_continuous(label = dollar_format()) + #ylim(input$time2[1], input$time2[2]) +
       theme_minimal() + labs(y = "Total Gifts", x ="") +
       theme(axis.title.y = element_text(size = 16)) +
       theme(axis.title.x = element_text(size = 16)) +
       theme(axis.text.x= element_text(size = 14))+
-      theme(axis.text.y= element_text(size = 14)) 
-    
+      theme(axis.text.y= element_text(size = 14))
+
    # ggplotly(p) %>% layout(autosize=TRUE)
 
   })
-  
+
   output$barchart_count <- renderPlot({
     donations %>%
       filter(Donation.Year, input$time2[1] & Donation.Year <= input$time2[2]) %>%
-      ggplot(aes(x=as.factor(Donation.Year), fill = Donation.Category)) + 
-      geom_bar() + theme_bw() + coord_flip() + 
+      ggplot(aes(x=as.factor(Donation.Year), fill = Donation.Category)) +
+      geom_bar() + theme_bw() + coord_flip() +
       labs(y = "Number of Gifts", x = "", fill = "Donation Category") +
       theme(axis.title.y = element_text(size = 16)) +
       theme(axis.title.x = element_text(size = 16)) +
       theme(axis.text.x= element_text(size = 14))+
-      theme(axis.text.y= element_text(size = 14)) 
+      theme(axis.text.y= element_text(size = 14))
   })
- 
+
   sum_donations <- reactive({
     df <- donations %>%
       filter(Donation.Year  >= input$time2[1] & Donation.Year <= input$time2[2]) %>%
@@ -248,16 +248,17 @@ shinyServer(function(input, output, session) {
   })
   output$summed_donations <- renderDataTable({
     sum_donations()
-  })
-  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2] )})
   }, rownames = FALSE,
-  options = list(
-    searching = FALSE, 
-    lengthChange = FALSE, 
-    pageLength = 20)
+    options = list(
+      searching = FALSE,
+      lengthChange = FALSE,
+      pageLength = 20)
   )
-  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
-  
+
+  output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2] )})
+
+  #output$abovePlot <- renderText({paste( "Viewing donations by amount category for years ", input$time2[1], "through",input$time2[2], "." )})
+
  output$tenderTypes <- renderPlotly({
     #Create new dataframe for plot
     #Sum total amount of money raised for each year
@@ -287,5 +288,5 @@ shinyServer(function(input, output, session) {
                           '<br> Year: ', year)) %>% layout(xaxis = x, yaxis = y, title = "Donations by Tender Type")
 
   })
-  
+
 })
