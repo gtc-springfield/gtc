@@ -112,6 +112,12 @@ shinyUI({
               plotlyOutput("tenderTypes"),
               width = 12
             )
+          ),
+          fluidRow(
+            box(
+              leafletOutput("donor_map"),
+              width = 12
+            )
           )
         ),
         tabItem(

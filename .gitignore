@@ -8,3 +8,4 @@ packrat/lib*/
 *.zip
 .DS_Store
 */.DS_Store
+*.rds
