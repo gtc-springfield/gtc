@@ -8,8 +8,18 @@ get_topsales <- function(data, cat) {
   return(d)
 }
 
+ fix_names <- function(data){
+      d <- lapply(data, function(x) {gsub(", ", "\n", x)})
+      d <- as.data.frame(d) 
+      d$Qty <- as.numeric(d$Qty)
+      return(d)
+    }
+
+
 output$items_top <- renderPlotly({
  top_items <- get_topsales(items_filter(), Item)
+ top_items <- fix_names(top_items)
+ 
  top_items <- top_items %>%
    filter((rank(desc(Net.Sales))<=10))
 
@@ -22,10 +32,8 @@ output$items_top <- renderPlotly({
      labs( y = "Net Sales($)")
  )
  p
+})
 
-
-
-  })
 
 output$items_sales_by_cat <- renderDataTable({
   top_cat <- get_topsales(items_filter(), Category)
