@@ -1,8 +1,5 @@
-
-source('./config.R')
-
 #Read in data from csv
-donations <- read.csv(file.path(GTC_PATH, GTC_DATA), header = TRUE, na.strings = "")
+donations <- read.csv("data/donations.csv", header = TRUE, na.strings = "")
 donations$Donation.Date <- dt_format(mdy(donations$Donation.Date))
 donations$Donation.Year <- year(donations$Donation.Date)
 donations$Donation.Month <- month(donations$Donation.Date)
@@ -298,7 +295,7 @@ shinyServer(function(input, output, session) {
       theme(axis.title.y = element_text(size = 16)) +
       theme(axis.title.x = element_text(size = 16)) +
       theme(axis.text.x= element_text(size = 14))+
-      theme(axis.text.y= element_text(size = 14)) 
+      theme(axis.text.y= element_text(size = 14))
 
    # ggplotly(p) %>% layout(autosize=TRUE)
   })
