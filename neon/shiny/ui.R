@@ -3,8 +3,8 @@ shinyUI({
   dashboardPage(
     skin = 'blue',
     dashboardHeader(
-      title='Donor Database (Neon) Reporting and Analysis', 
-      titleWidth = 500
+      title='Donor Database Analysis',
+      titleWidth = 300
     ),
     dashboardSidebar(
       disable = FALSE,
@@ -21,7 +21,7 @@ shinyUI({
           )
         ),
         menuItem(
-          "Campaign Report", 
+          "Campaign Report",
           tabName = "campaign"
         ),
         menuItem(
@@ -36,16 +36,16 @@ shinyUI({
           tabName = 'top_donors',
           fluidPage(
             column(
-              width = 6, 
+              width = 6,
               box(
-                width = NULL, 
+                width = NULL,
                 selectInput(
-                  "top_donors", 
-                  "Select a donation year", 
+                  "top_donors",
+                  "Select a donation year",
                   choices = c(
                     "All Years",
                     seq(from = 2017, to = 2004, by = -1)
-                  ), 
+                  ),
                   selected = 2017,
                   width = '70%'
                 ), # end selectInput
@@ -53,20 +53,20 @@ shinyUI({
               ) #end box
             ), # end column
             column(
-              width=12, 
-              br(), 
+              width=12,
+              br(),
               dataTableOutput("top_donors"),
               div(
                 downloadButton(
-                  'download_data1', 
-                  label="Download", 
+                  'download_data1',
+                  label="Download",
                   class = NULL
-                ), 
+                ),
                 align='left'
               ) # end div
             ) # end column
           ) # end fluidPage
-        ), # end tabItem 
+        ), # end tabItem
         tabItem(
           tabName = "top_donations",
           fluidPage(
@@ -104,32 +104,42 @@ shinyUI({
         ), # end tabItem
         tabItem(
           tabName = "campaign",
-          h2("Donation Campaign Report", align = "center"),
-          column(
-            width = 12,
-            plotlyOutput("tenderTypes")
+          fluidRow(
+            h2("Donation Campaign Report", align = "center")
+          ),
+          fluidRow(
+            box(
+              plotlyOutput("tenderTypes"),
+              width = 12
+            )
+          ),
+          fluidRow(
+            box(
+              leafletOutput("donor_map"),
+              width = 12
+            )
           )
         ),
         tabItem(
           tabName = "donations",
           fluidPage(
             column(
-              width = 6, align = 'left', 
+              width = 6, align = 'left',
               box(
-                width = NULL, 
+                width = NULL,
                 sliderInput(
-                  "time2", 
+                  "time2",
                   "Years to View:",
-                  min = 2004, 
-                  max = 2017, 
-                  value = c(2004, 2017), 
+                  min = 2004,
+                  max = 2017,
+                  value = c(2004, 2017),
                   sep =""
                 ) # end slideInput
               ) # end box
             ), # end column
             column(
               br(),
-              width = 12,  align = 'center', 
+              width = 12,  align = 'center',
               h3(textOutput("abovePlot")),
               br()
             ), # end column
@@ -145,8 +155,8 @@ shinyUI({
             ), # end FluidRow
             br(),
             br(),
-            width = 12,  align = 'center', 
-            
+            width = 12,  align = 'center',
+
             h3("Donation Categories Year-to-Year, Count and Total Gifts"),
             fluidRow(
               column(
