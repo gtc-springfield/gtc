@@ -12,4 +12,4 @@ df <- data
 items <- get_items_data(data)
 trans <- get_trans_data(data)
 
-years = unique(trans$Year)
+years = sort(unique(trans$Year), decreasing = TRUE)

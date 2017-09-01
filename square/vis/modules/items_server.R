@@ -88,7 +88,7 @@ output$items_yearly_comp <- renderDataTable({
         searching = FALSE
       )
   ) %>%
-    formatCurrency(c(3, 4), currency = "$", digits = 2)
+    formatCurrency(seq(2, length.out = length(years)), currency = "$", digits = 2)
   return(dat)
 
 })
