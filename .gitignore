@@ -9,3 +9,4 @@ packrat/lib*/
 .DS_Store
 */.DS_Store
 *.rds
+creds.txt
